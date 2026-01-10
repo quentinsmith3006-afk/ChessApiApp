@@ -27,8 +27,7 @@ public class HttpTools {
 
             String json = request(httpRequest);
 
-
-
+            // ClassName resp = GSON.fromJson(json, ClassName.class);
 
         } catch (URISyntaxException urise) {
             urise.printStackTrace();
