@@ -1,16 +1,14 @@
 package com.github.quentinsmith3006afk.chessapiapp.httptools;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import qchess.chess.logic.ChessBoard;
-import qchess.chess.logic.MoveLogic;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.http.HttpResponse;
-import java.net.http.HttpRequest;
 import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class HttpTools {
     public static final String START = "";
@@ -21,7 +19,8 @@ public class HttpTools {
 
     public static HttpClient httpClient = HttpClient.newBuilder().build();
 
-    public static String request(String endPointUrl) {
+    public static ChessBot request(String endPointUrl) {
+        ChessBot resp = null;
         try {
             HttpRequest httpRequest = HttpRequest.newBuilder()
                     .uri(new URI(START + endPointUrl))
@@ -29,13 +28,14 @@ public class HttpTools {
 
             String json = request(httpRequest);
 
-            // ClassName resp = GSON.fromJson(json, ClassName.class);
+            resp = GSON.fromJson(json, ChessBot.class);
+            System.out.println("User change");
 
         } catch (URISyntaxException urise) {
             urise.printStackTrace();
         }
 
-        return "";
+        return resp;
     }
 
     public static String request(HttpRequest httpRequest) {
