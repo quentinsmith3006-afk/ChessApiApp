@@ -2,6 +2,9 @@ package com.github.quentinsmith3006afk.chessapiapp;
 
 import java.util.HashMap;
 
+import com.github.quentinsmith3006afk.chessapiapp.httptools.ChessBot;
+import com.github.quentinsmith3006afk.chessapiapp.httptools.HttpTools;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -21,7 +24,10 @@ public class ChessApiApp extends Application {
     public void init() {
         board = ChessBoard.newBuilder().normalChessBoard().build();
 
-        board.setOnPieceMovement((event) -> System.out.println(this.boardToFen() + " " + this.getChessMetaData()));
+        board.setOnPieceMovement((event) -> {
+            ChessBot bot = HttpTools.request((boardToFen() + " " +getChessMetaData() + "&depth=5").replace(" ","%20"));
+            System.out.println(bot.bestmove);
+        });
 
         board.launchGame();
     }
@@ -81,7 +87,7 @@ public class ChessApiApp extends Application {
 
         endFen.append(logic.getTotalNumFullMoves() + 1);
 
-        endFen.append(" ");
+       
 
 
 
@@ -90,10 +96,10 @@ public class ChessApiApp extends Application {
 
     public String boardToFen() {
         ChessPosition[] list = board.getChessPositions();
-        String fen = "";
+        String fen = "fen=";
         int space = 0;
         for (ChessPosition square : list) {
-            if (square.getChessPiece() == null) {
+            if (square.getChessPiece() == null || MoveLogic.isSpecialPiece(square.getChessPiece())) {
                 space++;
                 if (square.getCoordinate().getCol() == 7) {
                     fen = fen + space;

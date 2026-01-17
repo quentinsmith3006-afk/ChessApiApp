@@ -11,7 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class HttpTools {
-    public static final String START = "";
+    public static final String START = "https://stockfish.online/api/s/v2.php?";
 
     public static Gson GSON = new GsonBuilder()
             .setPrettyPrinting()
@@ -29,7 +29,7 @@ public class HttpTools {
             String json = request(httpRequest);
 
             resp = GSON.fromJson(json, ChessBot.class);
-            System.out.println("User change");
+            System.out.println(START+ endPointUrl);
 
         } catch (URISyntaxException urise) {
             urise.printStackTrace();

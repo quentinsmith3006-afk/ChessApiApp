@@ -7,4 +7,6 @@ module com.github.quentinsmith3006afk.chessapiapp {
 
     opens com.github.quentinsmith3006afk.chessapiapp;
     exports com.github.quentinsmith3006afk.chessapiapp;
+    exports com.github.quentinsmith3006afk.chessapiapp.httptools;
+
 }
