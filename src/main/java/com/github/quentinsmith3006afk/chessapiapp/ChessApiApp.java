@@ -87,6 +87,10 @@ public class ChessApiApp extends Application {
 
         endFen.append(logic.getTotalNumFullMoves() + 1);
 
+        endFen.append(" ");
+
+        endFen.append(logic.getNumMovesToFiftyMoveDraw());
+
        
 
 
