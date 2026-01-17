@@ -56,7 +56,7 @@
         <dependency>
             <groupId>com.github.quentinsmith3006-afk</groupId>
             <artifactId>QChess</artifactId>
-            <version>0.2.6</version>
+            <version>0.8.7</version>
         </dependency>
     </dependencies>
 

@@ -1,20 +1,93 @@
 package com.github.quentinsmith3006afk.chessapiapp;
 
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
+import qchess.chess.create.EnpassantInfo;
 import qchess.chess.create.Team;
 import qchess.chess.logic.ChessBoard;
 import qchess.chess.logic.ChessPosition;
+import qchess.chess.logic.MoveLogic;
+
+import java.util.HashMap;
 
 public class ChessApiApp extends Application {
+    private Stage stage;
+    private Scene scene;
+
     private ChessBoard board;
+
+    @Override
+    public void init() {
+        board = ChessBoard.newBuilder().normalChessBoard().build();
+
+        board.setOnPieceMovement((event) -> System.out.println(this.getFen() + " " + this.getChessMetaData()));
+
+        board.launchGame();
+    }
+
     @Override
     public void start(Stage stage) {
-        board = ChessBoard.newBuilder().emptyChessBoard().build();
-        
-        System.out.println(this.getFen());
-        
+        this.stage = stage;
+
+        this.scene = new Scene(board);
+
+        stage.setScene(scene);
+        stage.show();
     }
+
+    public String getChessMetaData() {
+        StringBuilder endFen = new StringBuilder();
+        boolean aTeamCanCastle = false;
+
+        MoveLogic logic = board.getMoveLogic();
+
+        endFen.append(board.getPlayerTeam() == Team.WHITE ? "w" : "b");
+        endFen.append(" ");
+
+        HashMap<String, Boolean> castleInformation = logic.getCastleInformation();
+
+        if (castleInformation.containsKey("KINGSIDE WHITE")) {
+            endFen.append("K");
+            aTeamCanCastle = true;
+        }
+        if (castleInformation.containsKey("QUEENSIDE WHITE")) {
+            endFen.append("Q");
+            aTeamCanCastle = true;
+        }
+        if (castleInformation.containsKey("KINGSIDE BLACK")) {
+            endFen.append("k");
+            aTeamCanCastle = true;
+        }
+        if (castleInformation.containsKey("QUEENSIDE BLACK")) {
+            endFen.append("q");
+            aTeamCanCastle = true;
+        }
+
+        if (!aTeamCanCastle) {
+            endFen.append("-");
+        }
+
+        endFen.append(" ");
+
+        EnpassantInfo enpassantInfo = logic.getEnpassantInfo();
+        if (enpassantInfo != null) {
+            endFen.append(enpassantInfo.coordinate().getAlgebraicName());
+        } else {
+            endFen.append("-");
+        }
+
+        endFen.append(" ");
+
+        endFen.append(logic.getTotalNumFullMoves() + 1);
+
+        endFen.append(" ");
+
+
+
+        return endFen.toString();
+    }
+
     public String getFen() {
         ChessPosition[] list = board.getChessPositions();
         String fen = "";
@@ -36,6 +109,9 @@ public class ChessApiApp extends Application {
             }
 
             String add = "";
+
+            // idk bro I think I led you down the wrong path
+            // String add = square.getChessPiece().getName().substring(0, 1);
 
             switch (square.getChessPiece().getName()) {
                 case "Pawn":

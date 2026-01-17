@@ -3,7 +3,7 @@ module com.github.quentinsmith3006afk.chessapiapp {
     requires javafx.fxml;
     requires com.google.gson;
     requires java.net.http;
-    requires QChess;
+    requires qchess.chess;
 
     opens com.github.quentinsmith3006afk.chessapiapp;
     exports com.github.quentinsmith3006afk.chessapiapp;

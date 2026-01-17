@@ -2,6 +2,8 @@ package com.github.quentinsmith3006afk.chessapiapp.httptools;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import qchess.chess.logic.ChessBoard;
+import qchess.chess.logic.MoveLogic;
 
 import java.io.IOException;
 import java.net.URI;
