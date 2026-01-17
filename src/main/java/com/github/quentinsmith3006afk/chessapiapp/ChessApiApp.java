@@ -78,7 +78,13 @@ public class ChessApiApp extends Application {
 
         EnpassantInfo enpassantInfo = logic.getEnpassantInfo();
         if (enpassantInfo != null) {
-            endFen.append(enpassantInfo.coordinate().getAlgebraicName());
+            boolean leftTeamCond = enpassantInfo.leftChessPiece() != null && enpassantInfo.leftChessPiece().getTeam() == board.getPlayerTeam();
+            boolean rightTeamCond = enpassantInfo.rightChessPiece() != null && enpassantInfo.rightChessPiece().getTeam() == board.getPlayerTeam();
+            if (leftTeamCond || rightTeamCond) {
+                endFen.append(enpassantInfo.coordinate().getAlgebraicName());
+            } else {
+                endFen.append("-");
+            }
         } else {
             endFen.append("-");
         }
