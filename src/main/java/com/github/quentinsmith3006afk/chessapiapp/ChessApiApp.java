@@ -1,5 +1,7 @@
 package com.github.quentinsmith3006afk.chessapiapp;
 
+import java.util.HashMap;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -8,8 +10,6 @@ import qchess.chess.create.Team;
 import qchess.chess.logic.ChessBoard;
 import qchess.chess.logic.ChessPosition;
 import qchess.chess.logic.MoveLogic;
-
-import java.util.HashMap;
 
 public class ChessApiApp extends Application {
     private Stage stage;
@@ -21,7 +21,7 @@ public class ChessApiApp extends Application {
     public void init() {
         board = ChessBoard.newBuilder().normalChessBoard().build();
 
-        board.setOnPieceMovement((event) -> System.out.println(this.getFen() + " " + this.getChessMetaData()));
+        board.setOnPieceMovement((event) -> System.out.println(this.boardToFen() + " " + this.getChessMetaData()));
 
         board.launchGame();
     }
@@ -88,7 +88,7 @@ public class ChessApiApp extends Application {
         return endFen.toString();
     }
 
-    public String getFen() {
+    public String boardToFen() {
         ChessPosition[] list = board.getChessPositions();
         String fen = "";
         int space = 0;
