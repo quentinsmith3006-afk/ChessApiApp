@@ -107,20 +107,21 @@ public class ChessApiApp extends Application {
     public String boardToFen() {
         ChessPosition[] list = board.getChessPositions();
         String fen = "fen=";
+        String str = "";
         int space = 0;
         for (ChessPosition square : list) {
             if (square.getChessPiece() == null || MoveLogic.isSpecialPiece(square.getChessPiece())) {
                 space++;
                 if (square.getCoordinate().getCol() == 7) {
-                    fen = fen + space;
+                    str = str + space;
                     space = 0;
                     if (square.getCoordinate().getRow() != 7) {
-                        fen = fen + "/";
+                        str = str + "/";
                     }
                 }
                 continue;
             } else if (space > 0) {
-                fen = fen + space;
+                str = str + space;
                 space = 0;
             }
 
@@ -153,13 +154,16 @@ public class ChessApiApp extends Application {
             if (square.getChessPiece().getTeam() == Team.BLACK) {
                 add = add.toLowerCase();
             }
-            fen = fen + add;
+            str = str + add;
 
             if (square.getChessPiece().getCoordinate().getCol() == 7 && square.getChessPiece().getCoordinate().getRow() != 7) {
-                fen = fen + "/";
+                str = str + "/";
             }
             
         }
-        return fen;
+        StringBuilder s = new StringBuilder(str);
+        s.reverse();
+        str = s.toString();
+        return fen + str;
     }
 }
