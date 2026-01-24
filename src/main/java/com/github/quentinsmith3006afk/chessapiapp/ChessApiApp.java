@@ -1,6 +1,8 @@
 package com.github.quentinsmith3006afk.chessapiapp;
 
 import java.util.HashMap;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import com.github.quentinsmith3006afk.chessapiapp.httptools.ChessBot;
 import com.github.quentinsmith3006afk.chessapiapp.httptools.HttpTools;
@@ -52,20 +54,28 @@ public class ChessApiApp extends Application {
         endFen.append(" ");
 
         HashMap<String, Boolean> castleInformation = logic.getCastleInformation();
+        String kw = "KINGSIDE WHITE";
+        String qw = "QUEENSIDE WHITE";
+        String kb = "KINGSIDE BLACK";
+        String qb = "KINGSIDE BLACK";
 
-        if (castleInformation.containsKey("KINGSIDE WHITE")) {
+        Function<String, Boolean> castleCond = (String st) -> {
+            return castleInformation.containsKey(st) && castleInformation.get(st);
+        };
+
+        if (castleCond.apply("KINGSIDE WHITE")) {
             endFen.append("K");
             aTeamCanCastle = true;
         }
-        if (castleInformation.containsKey("QUEENSIDE WHITE")) {
+        if (castleCond.apply("QUEENSIDE WHITE")) {
             endFen.append("Q");
             aTeamCanCastle = true;
         }
-        if (castleInformation.containsKey("KINGSIDE BLACK")) {
+        if (castleCond.apply("KINGSIDE BLACK")) {
             endFen.append("k");
             aTeamCanCastle = true;
         }
-        if (castleInformation.containsKey("QUEENSIDE BLACK")) {
+        if (castleCond.apply("QUEENSIDE BLACK")) {
             endFen.append("q");
             aTeamCanCastle = true;
         }
@@ -95,11 +105,6 @@ public class ChessApiApp extends Application {
 
         endFen.append(" ");
         endFen.append(logic.getTotalNumFullMoves() + 1);
-        
-
-       
-
-
 
         return endFen.toString();
     }
